@@ -1,7 +1,7 @@
 export const robuds = [
   {
     id: 0,
-    name: "Relâmpago Marquinhos",
+    name: "Relampago Marquinhos",
     username: "Katchau",
     email: "relampago.marquinhos@katchau.com",
   },
