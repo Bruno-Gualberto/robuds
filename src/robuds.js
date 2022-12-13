@@ -1,4 +1,10 @@
-export const robots = [
+export const robuds = [
+  {
+    id: 0,
+    name: "Relâmpago Marquinhos",
+    username: "Katchau",
+    email: "relampago.marquinhos@katchau.com",
+  },
   {
     id: 1,
     name: "Leanne Graham",
@@ -52,11 +58,5 @@ export const robots = [
     name: "Glenna Reichert",
     username: "Delphine",
     email: "Chaim_McDermott@dana.io",
-  },
-  {
-    id: 10,
-    name: "Clementina DuBuque",
-    username: "Moriah.Stanton",
-    email: "Rey.Padberg@karina.biz",
   },
 ];
