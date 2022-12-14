@@ -2,16 +2,21 @@ import React from 'react';
 import SearchBox from './SearchBox';
 import CardList from './CardList';
 import './App.css';
-import { robuds } from "./robuds.js";
 
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      robuds: robuds,
+      robuds: [],
       searchfield: ''
     }
+  }
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(resp => resp.json())
+      .then(users => this.setState({ robuds: users }))
   }
 
   onSearchChange = ({ target }) => {
@@ -22,13 +27,18 @@ class App extends React.Component {
     const filteredRobuds = this.state.robuds.filter(robud => {
       return robud.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
     });
-    return (
-      <div className='tc'>
-        <h1 className='f1'>Robuds</h1>
-        <SearchBox searchChange={this.onSearchChange} />
-        <CardList robuds={filteredRobuds} />
-      </div>
-    )
+
+    if (this.state.robuds.length === 0) {
+      return <h1>Loading...</h1>
+    } else {
+      return (
+        <div className='tc'>
+          <h1 className='f1'>Robuds</h1>
+          <SearchBox searchChange={this.onSearchChange} />
+          <CardList robuds={filteredRobuds} />
+        </div>
+      )
+    }
   }
 }
 
