@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import SearchBox from '../components/SearchBox';
 import CardList from '../components/CardList';
@@ -6,46 +6,35 @@ import Scroll from '../components/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
 import './App.css';
 
-class App extends React.Component {
-  constructor() {
-    super();
+const App = () => {
+  const [robuds, setRobuds] = useState([]);
+  const [searchfield, setSearchfield] = useState('');
 
-    this.state = {
-      robuds: [],
-      searchfield: ''
-    }
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(resp => resp.json())
-      .then(users => this.setState({ robuds: users }))
-  }
+      .then(users => setRobuds(users))
+  }, []);
 
-  onSearchChange = ({ target }) => {
-    this.setState({ searchfield: target.value });
-  }
+  const onSearchChange = ({ target }) => setSearchfield(target.value);
 
-  render () {
-    const { robuds, searchfield } = this.state;
-    const filteredRobuds = robuds.filter(robud => {
-      return robud.name.toLowerCase().includes(searchfield.toLowerCase());
-    });
+  const filteredRobuds = robuds.filter(robud => {
+    return robud.name.toLowerCase().includes(searchfield.toLowerCase());
+  })
 
-    return !robuds.length ?
-      <h1>Loading...</h1> :
-      (
-        <div className='tc'>
-          <h1 className='f1'>Robuds</h1>
-          <SearchBox searchChange={this.onSearchChange} />
-          <Scroll>
-            <ErrorBoundry>
-              <CardList robuds={filteredRobuds} />
-            </ErrorBoundry>
-          </Scroll>
-        </div>
-      )
-  }
+  return !robuds.length ?
+    <h1>Loading...</h1> :
+    (
+      <div className='tc'>
+        <h1 className='f1'>Robuds</h1>
+        <SearchBox searchChange={onSearchChange} />
+        <Scroll>
+          <ErrorBoundry>
+            <CardList robuds={filteredRobuds} />
+          </ErrorBoundry>
+        </Scroll>
+      </div>
+    )
 }
 
 export default App;
