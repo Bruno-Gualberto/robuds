@@ -1,6 +1,8 @@
 import React from 'react';
-import SearchBox from './SearchBox';
-import CardList from './CardList';
+
+import SearchBox from '../components/SearchBox';
+import CardList from '../components/CardList';
+import Scroll from '../components/Scroll';
 import './App.css';
 
 class App extends React.Component {
@@ -24,21 +26,22 @@ class App extends React.Component {
   }
 
   render () {
-    const filteredRobuds = this.state.robuds.filter(robud => {
-      return robud.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+    const { robuds, searchfield } = this.state;
+    const filteredRobuds = robuds.filter(robud => {
+      return robud.name.toLowerCase().includes(searchfield.toLowerCase());
     });
 
-    if (this.state.robuds.length === 0) {
-      return <h1>Loading...</h1>
-    } else {
-      return (
+    return !robuds.length ?
+      <h1>Loading...</h1> :
+      (
         <div className='tc'>
           <h1 className='f1'>Robuds</h1>
           <SearchBox searchChange={this.onSearchChange} />
-          <CardList robuds={filteredRobuds} />
+          <Scroll>
+            <CardList robuds={filteredRobuds} />
+          </Scroll>
         </div>
       )
-    }
   }
 }
 
